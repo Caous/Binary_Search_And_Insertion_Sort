@@ -17,7 +17,7 @@ import java.util.Scanner;
 public class main {
 
     public static void main(String[] args) throws Exception {
-
+        
         Scanner nameFile = new Scanner(System.in);
 
         String file = "dic";
@@ -48,16 +48,14 @@ public class main {
 
             while (leitor.hasNextLine()) {
 
-                String[] vet = leitor.nextLine().split(" ");
+                String[] vet = leitor.nextLine().replaceAll("\\p{Punct}", "").split(" ");
 
                 for (int i = 0; i < vet.length; i++) {
-
-                    if (!vet[i].equals(" ")) {
-
-                        fileString[count] = vet[i];
-
-                        count = count + 1;
-
+                    if (!vet[i].equals(" ") && !vet[i].equals("")) {
+                        if (!searchBinary(vet[i], fileString)) {
+                            fileString[count] = vet[i];
+                            count = count + 1;
+                        }
                     }
                 }
             }
@@ -67,37 +65,42 @@ public class main {
 
     }
 
-    public static void insertionSort(String[] words) {        
-        
+    public static void insertionSort(String[] words) {
+
         for (int i = 1; i < words.length; i++) {
-
-            int point = i;
-            String value = words[point];
-
-            int compare = 0;
-            while (point > 0) {
-                compare = value.toUpperCase().compareTo(words[point - 1].toUpperCase());
-
-                if (compare >= 0) {
-                    point--;
-                }
-                if (compare < 0) {
+            if (words[i] != null) {
+                int point = i;
+                String value = words[point];
+                int comparacao = value.toUpperCase().compareTo(words[point - 1].toUpperCase());
+                while (point > 0 && value.toUpperCase().compareTo(words[point - 1].toUpperCase()) < 0) {
                     words[point] = words[point - 1];
                     point--;
                 }
-            }
-            if (compare < 0) {
                 words[point] = value;
             }
-
         }
     }
 
-    public static void printVet(String[] word) {
+    public static boolean searchBinary(String value, String[] fileString) {
 
-        for (int i = 0; i < word.length; i++) {
-            System.out.println(word[i]);
+        if (fileString[0] != null) {
+            for (int i = 0; i < fileString.length; i++) {
+                if (fileString[i] != null && fileString[i].toUpperCase().equals(value.toUpperCase())) {
+                    return true;
+                }
+            }
         }
+        return false;
+    }
 
+    public static void printVet(String[] word) {
+        int count = 0;
+        for (int i = 0; i < word.length; i++) {
+            if (word[i] != null) {
+                System.out.println(word[i].toLowerCase());
+                count = count + 1;
+            }
+        }
+        System.out.println("Total de palavras diferentes no dicionario =" + count);
     }
 }
