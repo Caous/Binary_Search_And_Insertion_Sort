@@ -20,60 +20,84 @@ public class main {
 
         Scanner nameFile = new Scanner(System.in);
 
-        System.out.print("Nome do arquivo: ");
+        String file = "dic";
 
-        String file = nameFile.nextLine();
-
-        System.out.print("Extensão do arquivp: ");
-
-        String extension = nameFile.nextLine();
+        String extension = "txt";
 
         String[] fileString = processFile(file, extension);
 
         nameFile.close();
 
-        String[] words = insertionSort(fileString);
+        insertionSort(fileString);
+
+        printVet(fileString);
 
     }
 
     public static String[] processFile(String file, String extension) throws FileNotFoundException, IOException {
 
         File temp = File.createTempFile(file, extension);
+
         String[] fileString = new String[1000];
-        
+
+        int count = 0;
+
         if (temp.exists()) {
-            Scanner leitor = new Scanner(new File("src/" + file));
+
+            Scanner leitor = new Scanner(new File("src/" + file + "." + extension));
 
             while (leitor.hasNextLine()) {
-                fileString = leitor.nextLine().split(" ");
+
+                String[] vet = leitor.nextLine().split(" ");
+
+                for (int i = 0; i < vet.length; i++) {
+
+                    if (!vet[i].equals(" ")) {
+
+                        fileString[count] = vet[i];
+
+                        count = count + 1;
+
+                    }
+                }
             }
         }
 
         return fileString;
 
     }
-    
-    public static String[] insertionSort(String[] words ){
-    
-        String[] word = new String[1000];
-        
-        word[0] = words[0];
+
+    public static void insertionSort(String[] words) {        
         
         for (int i = 1; i < words.length; i++) {
-            
-            int compare = word[0].compareTo(words[i]);
-            
-            switch(compare){
-            
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
+
+            int point = i;
+            String value = words[point];
+
+            int compare = 0;
+            while (point > 0) {
+                compare = value.toUpperCase().compareTo(words[point - 1].toUpperCase());
+
+                if (compare >= 0) {
+                    point--;
+                }
+                if (compare < 0) {
+                    words[point] = words[point - 1];
+                    point--;
+                }
             }
+            if (compare < 0) {
+                words[point] = value;
+            }
+
         }
-    
-        return word;
+    }
+
+    public static void printVet(String[] word) {
+
+        for (int i = 0; i < word.length; i++) {
+            System.out.println(word[i]);
+        }
+
     }
 }
