@@ -16,17 +16,13 @@ import java.util.Scanner;
  */
 public class main {
     
-    public static void main(String[] args) throws Exception {
-        
-        Scanner nameFile = new Scanner(System.in);
+    public static void main(String[] args) throws Exception {        
         
         String file = "dic";
         
         String extension = "txt";
         
         String[] fileString = processFile(file, extension);
-        
-        nameFile.close();
         
         printVet(fileString);
         
@@ -51,8 +47,11 @@ public class main {
                 for (int i = 0; i < vet.length; i++) {
                     if (!vet[i].equals(" ") && !vet[i].equals("")) {
                         if (!searchBinary(vet[i], fileString)) {
-                            insertLastPosition(vet[i], fileString);
-                            insertionSort(fileString);
+                            
+//                            Método antigo substituindo o insertLast e colocando no insertionSort
+//                            insertLastPosition(vet[i], fileString);
+  
+                              insertionSort(fileString,vet[i]);
                         }
                     }
                 }
@@ -63,18 +62,29 @@ public class main {
         
     }
     
-    public static void insertionSort(String[] words) {
+    public static void insertionSort(String[] words,String word) {
+        
+        if (words[0] == null) {
+            words[0] = word;
+            return;
+        }
         
         for (int i = 1; i < words.length; i++) {
             if (words[i] != null) {
+                
                 int point = i;
                 String value = words[point];
-                int comparacao = value.toUpperCase().compareTo(words[point - 1].toUpperCase());
+                
                 while (point > 0 && value.toUpperCase().compareTo(words[point - 1].toUpperCase()) < 0) {
                     words[point] = words[point - 1];
                     point--;
                 }
+                
                 words[point] = value;
+                
+            }else if(words[i] == null && !word.equals("")){
+                words[i] =word;
+                word = "";
             }
         }
     }
