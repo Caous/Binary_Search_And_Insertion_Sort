@@ -15,58 +15,56 @@ import java.util.Scanner;
  * atividades desonestas para nos beneficiar ou prejudicar outros.
  */
 public class main {
-
+    
     public static void main(String[] args) throws Exception {
         
         Scanner nameFile = new Scanner(System.in);
-
+        
         String file = "dic";
-
+        
         String extension = "txt";
-
+        
         String[] fileString = processFile(file, extension);
-
+        
         nameFile.close();
-
-        insertionSort(fileString);
-
+        
         printVet(fileString);
-
+        
     }
-
+    
     public static String[] processFile(String file, String extension) throws FileNotFoundException, IOException {
-
+        
         File temp = File.createTempFile(file, extension);
-
+        
         String[] fileString = new String[1000];
-
+        
         int count = 0;
-
+        
         if (temp.exists()) {
-
+            
             Scanner leitor = new Scanner(new File("src/" + file + "." + extension));
-
+            
             while (leitor.hasNextLine()) {
-
+                
                 String[] vet = leitor.nextLine().replaceAll("\\p{Punct}", "").split(" ");
-
+                
                 for (int i = 0; i < vet.length; i++) {
                     if (!vet[i].equals(" ") && !vet[i].equals("")) {
                         if (!searchBinary(vet[i], fileString)) {
-                            fileString[count] = vet[i];
-                            count = count + 1;
+                            insertLastPosition(vet[i], fileString);
+                            insertionSort(fileString);
                         }
                     }
                 }
             }
         }
-
+        
         return fileString;
-
+        
     }
-
+    
     public static void insertionSort(String[] words) {
-
+        
         for (int i = 1; i < words.length; i++) {
             if (words[i] != null) {
                 int point = i;
@@ -80,9 +78,9 @@ public class main {
             }
         }
     }
-
+    
     public static boolean searchBinary(String value, String[] fileString) {
-
+        
         if (fileString[0] != null) {
             for (int i = 0; i < fileString.length; i++) {
                 if (fileString[i] != null && fileString[i].toUpperCase().equals(value.toUpperCase())) {
@@ -92,7 +90,22 @@ public class main {
         }
         return false;
     }
-
+    
+    public static void insertLastPosition(String word, String[] words) {
+        
+        if (words[0] == null) {
+            words[0] = word;
+        } else {
+            for (int i = 0; i < words.length; i++) {
+                if (words[i] == null) {
+                    words[i] = word;
+                    break;
+                }
+            }
+        }
+        
+    }
+    
     public static void printVet(String[] word) {
         int count = 0;
         for (int i = 0; i < word.length; i++) {
