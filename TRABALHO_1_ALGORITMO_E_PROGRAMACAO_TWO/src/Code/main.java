@@ -14,10 +14,14 @@ import java.util.Scanner;
  * respostas para colegas externos ao grupo e não realizamos quaisquer outras
  * atividades desonestas para nos beneficiar ou prejudicar outros.
  */
+
 public class main {
     
     public static void main(String[] args) throws Exception {        
-        
+//        <summary>
+//            Necessário passar o nome do arquivo com a extensão colocamos
+//            o diretório no src/ porque não identificava nessa versão do netbeans o arquivo
+//        </summary>
         String file = "dic";
         
         String extension = "txt";
