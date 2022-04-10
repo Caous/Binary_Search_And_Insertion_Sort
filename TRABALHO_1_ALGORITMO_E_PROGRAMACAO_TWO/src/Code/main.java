@@ -6,7 +6,10 @@ import java.io.IOException;
 import java.util.Scanner;
 
 /**
- * Entrega do Trabalho 1- Algoritmos e Programação II Nós, Felipe Santana Silva
+ * Entrega do Trabalho 1- Algoritmos e Programação II 
+ * 
+ **Nós,
+ * Felipe Santana Silva
  * Gustavo Santos Nascimento
  *
  * declaramos que todas as respostas são fruto de nosso próprio trabalho, não
@@ -16,33 +19,40 @@ import java.util.Scanner;
  */
 
 public class main {
-    
-    public static void main(String[] args) throws Exception {        
 //        <summary>
-//            Necessário passar o nome do arquivo com a extensão colocamos
+//            Necessário passar o nome do arquivo com a extensão e o PATH, colocamos
 //            o diretório no src/ porque não identificava nessa versão do netbeans o arquivo
-//        </summary>
+//        </summary>    
+    public static void main(String[] args) throws Exception {        
+
         String file = "dic";
         
         String extension = "txt";
         
-        String[] fileString = processFile(file, extension);
+        String path = "src/";
         
-        printVet(fileString);
+        String[] words = processFile(path, file, extension);
+        
+        printVet(words);
         
     }
-    
-    public static String[] processFile(String file, String extension) throws FileNotFoundException, IOException {
-        
+//       <summary>
+//            Fazemos a leitura do arquivo,que apos lido armazenamos  no vetor words de 1000 posições.
+//            Verificamos se a palavra ja existe no vetor atráves do metodo SearchBinary. 
+//            Se não existir, inserimos ordenado através do InsertionSort.
+//        </summary>    
+    public static String[] processFile(String path,String file, String extension) throws FileNotFoundException, IOException {
+
         File temp = File.createTempFile(file, extension);
         
-        String[] fileString = new String[1000];
+        String[] words = new String[1000];
+
         
         int count = 0;
         
         if (temp.exists()) {
             
-            Scanner leitor = new Scanner(new File("src/" + file + "." + extension));
+            Scanner leitor = new Scanner(new File(path + file + "." + extension));
             
             while (leitor.hasNextLine()) {
                 
@@ -50,24 +60,30 @@ public class main {
                 
                 for (int i = 0; i < vet.length; i++) {
                     if (!vet[i].equals(" ") && !vet[i].equals("")) {
-                        if (!searchBinary(vet[i], fileString)) {
+                        if (!searchBinary(vet[i], words) && count <= 1000) {
                             
 //                            Método antigo substituindo o insertLast e colocando no insertionSort
 //                            insertLastPosition(vet[i], fileString);
   
-                              insertionSort(fileString,vet[i]);
+                              insertionSort(words,vet[i]);
+                              count = count + 1;
                         }
                     }
                 }
             }
         }
         
-        return fileString;
+        return words;
         
     }
-    
+//        <summary>
+//         comparação dos valores contidos no words.
+//         Sempre que usar um valor, transformo  ele em maiusuculo.
+//         Causa a palavra seja antecessora alfabeticamente, decremento de posicao até encontrar a correta.
+//        </summary>    
     public static void insertionSort(String[] words,String word) {
-        
+
+
         if (words[0] == null) {
             words[0] = word;
             return;
@@ -92,12 +108,17 @@ public class main {
             }
         }
     }
-    
-    public static boolean searchBinary(String value, String[] fileString) {
-        
-        if (fileString[0] != null) {
-            for (int i = 0; i < fileString.length; i++) {
-                if (fileString[i] != null && fileString[i].toUpperCase().equals(value.toUpperCase())) {
+
+//       <summary>
+//            Verifica se o vetor nao esta nulo.
+//            Não estando nulo, procuramos por palavras iguais, seja maiusculo ou minusculo .
+//        </summary>    
+    public static boolean searchBinary(String value, String[] words) {
+
+
+        if (words[0] != null) {
+            for (int i = 0; i < words.length; i++) {
+                if (words[i] != null && words[i].toUpperCase().equals(value.toUpperCase())) {
                     return true;
                 }
             }
@@ -105,8 +126,12 @@ public class main {
         return false;
     }
     
+//       <summary>
+//           SEM USO, verificar vetor,
+//        </summary>    
     public static void insertLastPosition(String word, String[] words) {
-        
+
+
         if (words[0] == null) {
             words[0] = word;
         } else {
@@ -120,7 +145,11 @@ public class main {
         
     }
     
+//       <summary>
+//           Fazemos o printy dos valores contido no vetor fileString.
+//        </summary>  
     public static void printVet(String[] word) {
+
         int count = 0;
         for (int i = 0; i < word.length; i++) {
             if (word[i] != null) {
